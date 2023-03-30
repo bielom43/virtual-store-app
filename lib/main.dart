@@ -1,10 +1,9 @@
-// ignore_for_file: depend_on_referenced_packages
-
 //files
 import 'package:clothing_store/providers/cart.dart';
 import 'package:clothing_store/providers/order_list.dart';
 import 'package:clothing_store/providers/product_list.dart';
 import 'package:clothing_store/screens/cart_screen.dart';
+import 'package:clothing_store/screens/orders_screen.dart';
 import 'package:clothing_store/screens/product_details_screen.dart';
 import 'package:clothing_store/screens/products_overview_screen.dart';
 import 'package:clothing_store/utils/routes/app_routes.dart';
@@ -37,7 +36,7 @@ class ShopApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Bem-Vindo!',
-        home: const ProductsOverViewScreen(),
+        // home: const ProductsOverViewScreen(),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: Colors.orange[900],
@@ -46,8 +45,10 @@ class ShopApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         routes: {
+          AppRoutes.home: (context) => const ProductsOverViewScreen(),
           AppRoutes.PRODUCT_DETAILS_SCREEN: (context) => const ProductDetailsScreen(),
           AppRoutes.CART: (context) => const CartScreen(),
+          AppRoutes.ORDERS: (context) => const OrdersScreen(),
         },
       ),
     );
