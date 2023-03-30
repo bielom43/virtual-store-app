@@ -22,21 +22,23 @@ class ProductItem extends StatelessWidget {
         footer: GridTileBar(
           leading: Consumer<Product>(
             builder: (ctx, product, _) => IconButton(
+              icon: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
+              splashColor: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.secondary,
               onPressed: () {
                 product.toggleFavorite();
               },
-              icon: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
-              color: Theme.of(context).colorScheme.secondary,
             ),
           ),
           trailing: IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            splashColor: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
               cart.addItem(product);
             },
-            icon: const Icon(Icons.shopping_cart),
-            color: Theme.of(context).colorScheme.secondary,
           ),
-          backgroundColor: Colors.black87,
+          backgroundColor: Colors.black38,
           title: Text(
             product.name,
             textAlign: TextAlign.center,
