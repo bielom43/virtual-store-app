@@ -5,9 +5,10 @@ import 'package:clothing_store/providers/product_list.dart';
 import 'package:clothing_store/screens/cart_screen.dart';
 import 'package:clothing_store/screens/orders_screen.dart';
 import 'package:clothing_store/screens/product_details_screen.dart';
+import 'package:clothing_store/screens/product_form_screen.dart';
+import 'package:clothing_store/screens/products_screen.dart';
 import 'package:clothing_store/screens/products_overview_screen.dart';
 import 'package:clothing_store/utils/routes/app_routes.dart';
-
 //packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,8 @@ class ShopApp extends StatelessWidget {
           AppRoutes.PRODUCT_DETAILS_SCREEN: (context) => const ProductDetailsScreen(),
           AppRoutes.CART: (context) => const CartScreen(),
           AppRoutes.ORDERS: (context) => const OrdersScreen(),
+          AppRoutes.PRODUCTS: (context) => const ProductsScreen(),
+          AppRoutes.PRODUCT_FORM: (context) => const ProductFormScreen(),
         },
       ),
     );

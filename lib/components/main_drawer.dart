@@ -30,6 +30,14 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           const Divider(),
+          ListTile(
+            leading: const Icon(Icons.manage_search),
+            title: const Text('Gerenciar Produtos'),
+            onTap: () => Navigator.of(context).pushReplacementNamed(
+              AppRoutes.PRODUCTS,
+            ),
+          ),
+          const Divider(),
         ],
       ),
     );
