@@ -2,9 +2,11 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/providers/product_list.dart';
 //packages
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductFormScreen extends StatefulWidget {
   const ProductFormScreen({super.key});
@@ -48,7 +50,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
     bool endWithFile = url.toLowerCase().endsWith('.png') ||
         url.toLowerCase().endsWith('.jpg') ||
-        url.toLowerCase().endsWith('.jpeg');
+        url.toLowerCase().endsWith('.jpeg') ||
+        url.toLowerCase().endsWith('.svg');
 
     return isValidUrl && endWithFile;
   }
@@ -60,6 +63,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       return;
     }
 
+    _formkey.currentState?.save();
+    // ignore: unused_local_variable
     final newProduct = Product(
       id: Random().nextDouble().toString(),
       name: _formData['name'] as String,
@@ -68,7 +73,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       imageURL: _formData['imageUrl'] as String,
     );
 
-    _formkey.currentState?.save();
+    Provider.of<ProductsList>(context, listen: false).addProduct(newProduct);
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -102,10 +109,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                   if (name.trim().isEmpty) {
                     return 'Nome é obrigatório.';
                   }
-                  if (name.trim().length < 2) {
-                    return 'Nome precisa de no mínimo 2 letras.';
-                  }
 
+                  if (name.trim().length < 3) {
+                    return 'Nome precisa no mínimo de 3 letras.';
+                  }
                   return null;
                 },
               ),
@@ -115,17 +122,27 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 focusNode: _priceFocus,
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
+                  signed: true,
                 ),
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
                 onSaved: (price) => _formData['price'] = double.parse(price ?? '0'),
+                validator: (_price) {
+                  final priceString = _price ?? '';
+                  final price = double.tryParse(priceString) ?? -1;
+
+                  if (price <= 0) {
+                    return 'Informe um preço válido.';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Descrição'),
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
-                maxLines: 2,
+                maxLines: 3,
                 onSaved: (description) => _formData['description'] = description ?? '',
                 validator: (_description) {
                   final description = _description ?? '';
@@ -133,10 +150,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                   if (description.trim().isEmpty) {
                     return 'Descrição é obrigatória.';
                   }
-                  if (description.trim().length < 8) {
-                    return 'Descrição precisa de no mínimo 8 letras.';
-                  }
 
+                  if (description.trim().length < 10) {
+                    return 'Descrição precisa no mínimo de 10 letras.';
+                  }
                   return null;
                 },
               ),
@@ -145,7 +162,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: const InputDecoration(labelText: 'URL da imagem'),
+                      decoration: const InputDecoration(labelText: 'Url da Imagem'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       focusNode: _imageUrlFocus,
@@ -156,9 +173,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                         final imageUrl = _imageUrl ?? '';
 
                         if (!isValidImageUrl(imageUrl)) {
-                          return 'Informe uma url válida!';
+                          return 'Informe uma Url válida!';
                         }
-
                         return null;
                       },
                     ),
@@ -178,7 +194,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     ),
                     alignment: Alignment.center,
                     child: _imageUrlController.text.isEmpty
-                        ? const Text('Informe a URL')
+                        ? const Text('Informe a Url')
                         : FittedBox(
                             fit: BoxFit.cover,
                             child: Image.network(_imageUrlController.text),
