@@ -32,7 +32,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
     if (_formData.isEmpty) {
@@ -211,10 +210,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     alignment: Alignment.center,
                     child: _imageUrlController.text.isEmpty
                         ? const Text('Informe a Url')
-                        : FittedBox(
-                            fit: BoxFit.cover,
-                            child: Image.network(_imageUrlController.text),
-                          ),
+                        : Image.network(_imageUrlController.text),
                   ),
                 ],
               ),

@@ -14,7 +14,7 @@ class ProductItem extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageURL),
       ),
-      title: Text('Produto ${product.name}'),
+      title: Text('${product.name}'),
       trailing: SizedBox(
         width: 100,
         child: Row(
@@ -36,8 +36,8 @@ class ProductItem extends StatelessWidget {
                 showDialog<bool>(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: const Text('Tem certeza?'),
-                    content: const Text('Quer mesmo remover o item do carrinho?'),
+                    title: Text('Excluir ${product.name}?'),
+                    content: const Text('Deseja excluir o cadastro do item?'),
                     actions: [
                       TextButton(
                         child: const Text('Não'),

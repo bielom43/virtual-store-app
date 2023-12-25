@@ -1,4 +1,5 @@
 //files
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:clothing_store/data/dummy_data.dart';
@@ -6,8 +7,10 @@ import 'package:clothing_store/models/product.dart';
 
 //packages
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ProductsList with ChangeNotifier {
+  final baseUrl = 'https://shop-app-fl-default-rtdb.firebaseio.com';
   final List<Product> _items = dummyProducts;
   bool _showFavoriteOnly = false;
 
@@ -59,8 +62,34 @@ class ProductsList with ChangeNotifier {
   }
 
   void addProduct(Product product) {
-    _items.add(product);
-    notifyListeners();
+    final future = http.post(
+      Uri.parse('$baseUrl/products.json'),
+      body: jsonEncode(
+        {
+          "name": product.name,
+          "price": product.price,
+          "description": product.description,
+          "imageURL": product.imageURL,
+          "isFavorite": product.isFavorite,
+        },
+      ),
+    );
+    future.then(
+      (response) {
+        final id = jsonDecode(response.body)['name'];
+        _items.add(
+          Product(
+            id: id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            imageURL: product.imageURL,
+            isFavorite: product.isFavorite,
+          ),
+        );
+        notifyListeners();
+      },
+    );
   }
 
   void showFavoriteOnly() {
