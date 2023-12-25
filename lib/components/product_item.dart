@@ -1,5 +1,8 @@
 import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/providers/product_list.dart';
+import 'package:clothing_store/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -17,12 +20,48 @@ class ProductItem extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.secondary),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  AppRoutes.PRODUCT_FORM,
+                  arguments: product,
+                );
+              },
+              icon: Icon(
+                Icons.edit,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
             IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
+              onPressed: () {
+                showDialog<bool>(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Tem certeza?'),
+                    content: const Text('Quer mesmo remover o item do carrinho?'),
+                    actions: [
+                      TextButton(
+                        child: const Text('Não'),
+                        onPressed: () => Navigator.of(ctx).pop(false),
+                      ),
+                      TextButton(
+                        child: const Text('Sim'),
+                        onPressed: () => Navigator.of(ctx).pop(true),
+                      ),
+                    ],
+                  ),
+                ).then((value) {
+                  if (value ?? false) {
+                    Provider.of<ProductsList>(
+                      context,
+                      listen: false,
+                    ).removeProduct(product);
+                  }
+                });
+              },
+              icon: Icon(
+                Icons.delete,
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ],
         ),

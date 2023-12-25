@@ -39,6 +39,7 @@ class ShopApp extends StatelessWidget {
         title: 'Bem-Vindo!',
         // home: const ProductsOverViewScreen(),
         theme: ThemeData(
+          useMaterial3: false,
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: Colors.orange[900],
             secondary: Colors.deepPurpleAccent.shade200,
