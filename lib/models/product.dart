@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:clothing_store/exceptions/http_exceptions.dart';
 import 'package:clothing_store/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
