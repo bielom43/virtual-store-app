@@ -51,7 +51,7 @@ class ProductGridItem extends StatelessWidget {
               );
             },
           ),
-          backgroundColor: Colors.black38,
+          backgroundColor: Colors.black54,
           title: Text(
             product.name,
             textAlign: TextAlign.center,
