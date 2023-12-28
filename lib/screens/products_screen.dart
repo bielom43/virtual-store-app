@@ -28,6 +28,7 @@ class ProductsScreen extends StatelessWidget {
           ),
         ],
       ),
+      
       drawer: const MainDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(4),
