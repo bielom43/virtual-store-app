@@ -1,6 +1,6 @@
 //files
 import 'package:clothing_store/providers/cart.dart';
-import 'package:clothing_store/providers/order_list.dart';
+import 'package:clothing_store/models/order_list.dart';
 import 'package:clothing_store/providers/product_list.dart';
 import 'package:clothing_store/screens/cart_screen.dart';
 import 'package:clothing_store/screens/orders_screen.dart';
