@@ -1,5 +1,5 @@
 //files
-import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/models/product_model.dart';
 import 'package:clothing_store/providers/cart.dart';
 import 'package:clothing_store/utils/routes/app_routes.dart';
 //packages

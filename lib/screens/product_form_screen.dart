@@ -1,7 +1,7 @@
 //files
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/models/product_model.dart';
 import 'package:clothing_store/providers/product_list.dart';
 //packages
 import 'package:flutter/material.dart';

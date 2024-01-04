@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/models/product_model.dart';
 import 'package:clothing_store/utils/constants.dart';
 import '../exceptions/http_exceptions.dart';
 

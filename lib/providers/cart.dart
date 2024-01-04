@@ -1,6 +1,6 @@
 //files
 import 'package:clothing_store/models/cart_item.dart';
-import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/models/product_model.dart';
 
 //packages
 import 'package:flutter/material.dart';

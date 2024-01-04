@@ -1,5 +1,5 @@
 //files
-import 'package:clothing_store/models/order.dart';
+import 'package:clothing_store/models/order_model.dart';
 //packages
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

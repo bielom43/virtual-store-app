@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 //files
 import 'package:clothing_store/providers/cart.dart';
 import 'package:flutter/material.dart';
-import 'package:clothing_store/models/order.dart';
+import 'package:clothing_store/models/order_model.dart';
 
 class OrderList with ChangeNotifier {
   final List<Order> _items = [];

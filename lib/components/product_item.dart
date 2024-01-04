@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/models/product_model.dart';
 import 'package:clothing_store/providers/product_list.dart';
 import 'package:clothing_store/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';

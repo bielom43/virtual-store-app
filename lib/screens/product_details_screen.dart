@@ -1,5 +1,5 @@
 //files
-import 'package:clothing_store/models/product.dart';
+import 'package:clothing_store/models/product_model.dart';
 //package
 import 'package:flutter/material.dart';
 
