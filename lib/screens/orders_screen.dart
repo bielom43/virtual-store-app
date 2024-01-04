@@ -1,6 +1,7 @@
 //files
 import 'package:clothing_store/components/main_drawer.dart';
 import 'package:clothing_store/components/order_item.dart';
+import 'package:clothing_store/models/order.dart';
 import 'package:clothing_store/models/order_list.dart';
 //packages
 import 'package:flutter/material.dart';
@@ -27,6 +28,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
     });
   }
 
+  Future<void> _refreshProducts(BuildContext context) {
+    return Provider.of<OrderList>(
+      context,
+      listen: false,
+    ).loadOrders();
+  }
+
   @override
   Widget build(BuildContext context) {
     final OrderList orders = Provider.of(context);
@@ -35,16 +43,19 @@ class _OrdersScreenState extends State<OrdersScreen> {
       appBar: AppBar(
         title: const Text('Meus Pedidos'),
       ),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: orders.itemsCount,
-              itemBuilder: (context, index) => OrderWidget(
-                order: orders.items[index],
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProducts(context),
+        child: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: orders.itemsCount,
+                itemBuilder: (context, index) => OrderWidget(
+                  order: orders.items[index],
+                ),
               ),
-            ),
+      ),
       drawer: const MainDrawer(),
     );
   }
