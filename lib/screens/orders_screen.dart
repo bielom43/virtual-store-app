@@ -6,8 +6,26 @@ import 'package:clothing_store/models/order_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
+
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<OrderList>(
+      context,
+      listen: false,
+    ).loadOrders().then((_) {
+      setState(() => _isLoading = false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +35,16 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Meus Pedidos'),
       ),
-      body: ListView.builder(
-        itemCount: orders.itemsCount,
-        itemBuilder: (context, index) => OrderWidget(
-          order: orders.items[index],
-        ),
-      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: orders.itemsCount,
+              itemBuilder: (context, index) => OrderWidget(
+                order: orders.items[index],
+              ),
+            ),
       drawer: const MainDrawer(),
     );
   }
