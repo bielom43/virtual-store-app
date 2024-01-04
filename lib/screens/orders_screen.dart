@@ -1,7 +1,6 @@
 //files
 import 'package:clothing_store/components/main_drawer.dart';
 import 'package:clothing_store/components/order_item.dart';
-import 'package:clothing_store/models/order.dart';
 import 'package:clothing_store/models/order_list.dart';
 //packages
 import 'package:flutter/material.dart';
