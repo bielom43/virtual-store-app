@@ -18,7 +18,7 @@ class MainDrawer extends StatelessWidget {
             leading: const Icon(Icons.shop),
             title: const Text('Loja'),
             onTap: () => Navigator.of(context).pushReplacementNamed(
-              AppRoutes.home,
+              AppRoutes.HOME,
             ),
           ),
           const Divider(),

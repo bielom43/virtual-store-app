@@ -2,6 +2,7 @@
 import 'package:clothing_store/providers/cart.dart';
 import 'package:clothing_store/models/order_list.dart';
 import 'package:clothing_store/providers/product_list.dart';
+import 'package:clothing_store/screens/auth_scree.dart';
 import 'package:clothing_store/screens/cart_screen.dart';
 import 'package:clothing_store/screens/orders_screen.dart';
 import 'package:clothing_store/screens/product_details_screen.dart';
@@ -47,7 +48,8 @@ class ShopApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         routes: {
-          AppRoutes.home: (context) => const ProductsOverViewScreen(),
+          AppRoutes.AUTH: (context) => const AuthScreen(),
+          AppRoutes.HOME: (context) => const ProductsOverViewScreen(),
           AppRoutes.PRODUCT_DETAILS_SCREEN: (context) => const ProductDetailsScreen(),
           AppRoutes.CART: (context) => const CartScreen(),
           AppRoutes.ORDERS: (context) => const OrdersScreen(),
