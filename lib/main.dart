@@ -3,13 +3,12 @@ import 'package:clothing_store/models/auth.dart';
 import 'package:clothing_store/providers/cart.dart';
 import 'package:clothing_store/models/order_list.dart';
 import 'package:clothing_store/providers/product_list.dart';
-import 'package:clothing_store/screens/auth_screen.dart';
+import 'package:clothing_store/screens/auth_or_home_screen.dart';
 import 'package:clothing_store/screens/cart_screen.dart';
 import 'package:clothing_store/screens/orders_screen.dart';
 import 'package:clothing_store/screens/product_details_screen.dart';
 import 'package:clothing_store/screens/product_form_screen.dart';
 import 'package:clothing_store/screens/products_screen.dart';
-import 'package:clothing_store/screens/products_overview_screen.dart';
 import 'package:clothing_store/utils/routes/app_routes.dart';
 //packages
 import 'package:flutter/material.dart';
@@ -18,25 +17,29 @@ import 'package:provider/provider.dart';
 void main() => runApp(const ShopApp());
 
 class ShopApp extends StatelessWidget {
-  const ShopApp({
-    super.key,
-  });
+  const ShopApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProductsList(),
+          create: (_) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, ProductsList>(
+          create: (_) => ProductsList('', []),
+          update: (context, auth, previous) {
+            return ProductsList(
+              auth.token ?? '',
+              previous?.items ?? [],
+            );
+          },
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
         ),
         ChangeNotifierProvider(
           create: (_) => OrderList(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Auth(),
         ),
       ],
       child: MaterialApp(
@@ -52,8 +55,7 @@ class ShopApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         routes: {
-          AppRoutes.AUTH: (context) => const AuthScreen(),
-          AppRoutes.HOME: (context) => const ProductsOverViewScreen(),
+          AppRoutes.AUTH_OR_HOME: (context) => const AuthOrHomeScreen(),
           AppRoutes.PRODUCT_DETAILS_SCREEN: (context) => const ProductDetailsScreen(),
           AppRoutes.CART: (context) => const CartScreen(),
           AppRoutes.ORDERS: (context) => const OrdersScreen(),
