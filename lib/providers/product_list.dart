@@ -11,12 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsList with ChangeNotifier {
-  ProductsList(
-    this._token,
-    this._items,
-  );
+  ProductsList([
+    this._token = '',
+    this._items = const [],
+    this._userId = '',
+  ]);
 
-  String _token;
+  final String _token;
+  final String _userId;
   List<Product> _items = [];
   bool _showFavoriteOnly = false;
 
@@ -40,9 +42,14 @@ class ProductsList with ChangeNotifier {
 
     if (response.body == 'null') return;
 
-    Map<String, dynamic> data = jsonDecode(response.body);
+    final favResponse = await http.get(
+      Uri.parse('${Constants.USER_FAVORITES_URL}/$_userId.json?auth=$_token'),
+    );
 
+    Map<String, dynamic> favData = favResponse.body == 'null' ? {} : jsonDecode(favResponse.body);
+    Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
+      final isFavorite = favData[productId] ?? false;
       _items.add(
         Product(
           id: productId,
@@ -50,7 +57,7 @@ class ProductsList with ChangeNotifier {
           description: productData['description'],
           price: productData['price'],
           imageURL: productData['imageURL'],
-          isFavorite: productData['isFavorite'],
+          isFavorite: isFavorite,
         ),
       );
     });
@@ -129,7 +136,6 @@ class ProductsList with ChangeNotifier {
           "price": product.price,
           "description": product.description,
           "imageURL": product.imageURL,
-          "isFavorite": product.isFavorite,
         },
       ),
     );
@@ -145,6 +151,7 @@ class ProductsList with ChangeNotifier {
         isFavorite: product.isFavorite,
       ),
     );
+
     notifyListeners();
   }
 

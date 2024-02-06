@@ -46,7 +46,7 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Minha Loja'),
+        title: const Text('Produtos'),
         centerTitle: true,
         actions: [
           PopupMenuButton(
