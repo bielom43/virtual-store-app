@@ -1,5 +1,7 @@
+import 'package:clothing_store/models/auth.dart';
 import 'package:clothing_store/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
@@ -37,6 +39,17 @@ class MainDrawer extends StatelessWidget {
               AppRoutes.PRODUCTS,
             ),
           ),
+          const Divider(),
+          ListTile(
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Logout'),
+              onTap: () {
+                Provider.of<Auth>(
+                  context,
+                  listen: false,
+                ).logout();
+                Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH_OR_HOME);
+              }),
           const Divider(),
         ],
       ),
