@@ -27,7 +27,7 @@ class Product with ChangeNotifier {
   }
 
   Future<void> toggleFavorite(String token, String userId) async {
-    print(userId);  
+    print(userId);
     try {
       _toggleFavorite();
 

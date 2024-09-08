@@ -48,9 +48,10 @@ class ProductsList with ChangeNotifier {
 
     Map<String, dynamic> favData = favResponse.body == 'null' ? {} : jsonDecode(favResponse.body);
     Map<String, dynamic> data = jsonDecode(response.body);
-    
+
     data.forEach((productId, productData) {
       final isFavorite = favData[productId] ?? false;
+
       _items.add(
         Product(
           id: productId,
@@ -89,7 +90,7 @@ class ProductsList with ChangeNotifier {
 
     if (index >= 0) {
       await http.patch(
-        Uri.parse('${Constants.PRODUCT_BASE_URL}.json?auth=$_token'),
+        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json?auth=$_token'),
         body: jsonEncode(
           {
             "name": product.name,
