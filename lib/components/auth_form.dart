@@ -12,7 +12,7 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> {
+class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   bool _isLoading = false;
@@ -22,13 +22,63 @@ class _AuthFormState extends State<AuthForm> {
     'password': '',
   };
 
+  AnimationController? _controller;
+  Animation<double>? _opacityAnimation;
+  Animation<Offset>? _slideAnimation;
+
   bool _isLogin() => _authMode == AuthMode.Login;
-  bool _isSignup() => _authMode == AuthMode.Signup;
+  // bool _isSignup() => _authMode == AuthMode.Signup;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 300,
+      ),
+    );
+
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.linear,
+      ),
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, -1.5),
+      end: Offset(0, 0),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.linear,
+      ),
+    );
+
+    // _opacityAnimation?.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
 
   void _switchAuthMode() {
     setState(
       () {
-        _authMode = _isLogin() ? AuthMode.Signup : AuthMode.Login;
+        if (_isLogin()) {
+          _authMode = AuthMode.Signup;
+          _controller?.forward();
+        } else {
+          _authMode = AuthMode.Login;
+          _controller?.reverse();
+        }
+        // _authMode = _isLogin() ? AuthMode.Signup : AuthMode.Login;
       },
     );
   }
@@ -91,9 +141,12 @@ class _AuthFormState extends State<AuthForm> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
         padding: const EdgeInsets.all(14),
         height: _isLogin() ? 310 : 400,
+        // height: _opacityAnimation?.value.height ?? (_isLogin() ? 310 : 400),
         width: deviceSize.width * 0.85,
         child: Form(
           key: _formkey,
@@ -129,23 +182,36 @@ class _AuthFormState extends State<AuthForm> {
                 obscureText: true,
                 controller: _passwordController,
               ),
-              if (_isSignup())
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Confirmar Senha',
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  obscureText: true,
-                  validator: _isLogin()
-                      ? null
-                      : (_password) {
-                          final password = _password ?? '';
-                          if (_passwordController.text != password) {
-                            return 'A senha não coincide';
-                          }
-                          return null;
-                        },
+              AnimatedContainer(
+                constraints: BoxConstraints(
+                  minHeight: _isLogin() ? 0 : 60,
+                  maxHeight: _isLogin() ? 0 : 120,
                 ),
+                duration: Duration(milliseconds: 300),
+                curve: Curves.linear,
+                child: FadeTransition(
+                  opacity: _opacityAnimation!,
+                  child: SlideTransition(
+                    position: _slideAnimation!,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Confirmar Senha',
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      obscureText: true,
+                      validator: _isLogin()
+                          ? null
+                          : (_password) {
+                              final password = _password ?? '';
+                              if (_passwordController.text != password) {
+                                return 'A senha não coincide';
+                              }
+                              return null;
+                            },
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 20,
               ),
