@@ -14,6 +14,8 @@ import 'package:clothing_store/utils/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'utils/custom_routes.dart';
+
 void main() => runApp(const ShopApp());
 
 class ShopApp extends StatelessWidget {
@@ -39,7 +41,7 @@ class ShopApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, OrderList>(
           create: (_) => OrderList(),
           update: (context, auth, previous) {
-            return OrderList(auth.token ?? '', auth.userId ?? '',previous?.items ?? []);
+            return OrderList(auth.token ?? '', auth.userId ?? '', previous?.items ?? []);
           },
         ),
         ChangeNotifierProvider(
@@ -47,6 +49,10 @@ class ShopApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        darkTheme: ThemeData.dark(
+          useMaterial3: false,
+        ),
+        themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         title: 'Bem-Vindo!',
         // home: const ProductsOverViewScreen(),
@@ -57,6 +63,13 @@ class ShopApp extends StatelessWidget {
             secondary: Colors.deepPurpleAccent.shade200,
           ),
           fontFamily: 'Lato',
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              //define transicoes diferentes pelo tipo de plataforma
+              TargetPlatform.android: CustomPageTransitionBuilder(),
+              TargetPlatform.iOS: CustomPageTransitionBuilder(),
+            },
+          ),
         ),
         routes: {
           AppRoutes.AUTH_OR_HOME: (context) => const AuthOrHomeScreen(),

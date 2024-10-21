@@ -27,6 +27,10 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.payment),
             title: const Text('Pedidos'),
+            //Fade transition
+            // onTap: () => Navigator.of(context).pushReplacement(
+            //   CustomRoute(builder: (context) => OrdersScreen()),
+            // ),
             onTap: () => Navigator.of(context).pushReplacementNamed(
               AppRoutes.ORDERS,
             ),
